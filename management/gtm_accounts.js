@@ -29,8 +29,11 @@ return( (type == 'csv') ? gtm_csv:gtm);
 }
 
 function download(data, filename, type) {
+	if(typeof data === "object"){
+        data = JSON.stringify(data, undefined, 4)
+    }
     var a = document.createElement("a"),
-        file = new Blob([data], {type: (type == 'csv')?'text/csv':'application/json'});
+        file = new Blob([data], {type: (type == 'csv')?'text/csv':'text/json'});
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename + '.' + ( (type == 'csv')?'csv':'json' ) );
     else { // Others
