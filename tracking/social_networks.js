@@ -6,9 +6,9 @@
 		var generic_interval = setInterval(function(){
 			if( ( srv.includes('fb') ? typeof fbq == 'function' : true ) && (  srv.includes('vk') ? typeof VK == 'object' : true ) && ( srv.includes('mt') ? typeof _tmr == 'object' : true ) && !generic_social_checker)
 			{
-				VK.Retargeting.Event(genericGoalID);
-				fbq('trackCustom', genericGoalID);
-				_tmr.push({ id: window.mt_id, type: "reachGoal", goal: genericGoalID });
+				if( srv.includes('vk') ){ VK.Retargeting.Event(genericGoalID);}
+				if( srv.includes('fb') ){ fbq('trackCustom', genericGoalID);}
+				if( srv.includes('mt') ){ _tmr.push({ id: window.mt_id, type: "reachGoal", goal: genericGoalID });}
 
 				console.log(
 					'%c  All social tracking codes fired successfully for Goal: ' + '%c' + genericGoalID + '  ', 
