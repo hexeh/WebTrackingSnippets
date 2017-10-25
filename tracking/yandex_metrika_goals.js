@@ -1,4 +1,4 @@
-	var counterId = '44780440';
+	var counterId = 'PlaceCounterIDHere';
 	var goalId = 'PlaceJSGoalIdentifierHere';
 	var goalSender = function(c,g)
 	{
