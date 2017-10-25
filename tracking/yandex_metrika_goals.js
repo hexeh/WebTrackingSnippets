@@ -1,23 +1,25 @@
-	var counterId = 'PlaceCounterIdHere';
+	var counterId = '44780440';
 	var goalId = 'PlaceJSGoalIdentifierHere';
-
-	var m_checker_firstscreen = 0;
-	var m_interval_firstscreen = setInterval(function(){
-		if(typeof window['yaCounter' + counterId] == 'object' && !m_checker_firstscreen)
+	var goalSender = function(c,g)
+	{
+		if( typeof window['yaCounter' + c] == 'object' )
 		{
 			var sendGoalParams = 
 			{
 				'fired_through': 'GTM',
-				'time': date.now()
+				'time': Date.now()
 			}
-			window['yaCounter' + counterId].reachGoal(goalId, sendGoalParams, function(){
+			window['yaCounter' + c].reachGoal(g, sendGoalParams, function(){
 				console.log(
-					'%c  Counter: ' + '%c' + counterId + ' ' + '%cfired successfully for Goal: ' + '%c' + goalId + '  ', 
+					'%c  Counter: ' + '%c' + c + ' ' + '%cfired successfully for Goal: ' + '%c' + g + '  ', 
 					'background:#37474F;color:white;', 'background:#37474F;color:#FFECB3;font-weight:bold', 
 					'background:#37474F;color:white;', 'background:#37474F;color:#FFECB3;font-weight:bold'
 				);
 			});
-			m_checker_firstscreen = 1;
-			clearInterval(m_interval_firstscreen);
 		}
-	}, 1000);
+		else
+		{
+			window.setTimeout(function(){goalSender(c,g);}, 500);
+		}
+	}
+	goalSender(counterId, goalId)
