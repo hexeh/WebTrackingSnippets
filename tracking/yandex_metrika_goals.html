@@ -1,5 +1,7 @@
-	var counterId = 'PlaceCounterIDHere';
-	var goalId = 'PlaceJSGoalIdentifierHere';
+<script type="text/javascript">
+
+	var counterId = {{YM Tracker}};
+	var goalId = 'GOAL_IENTIFIER';
 	var goalSender = function(c,g)
 	{
 		if( typeof window['yaCounter' + c] == 'object' )
@@ -19,7 +21,9 @@
 		}
 		else
 		{
-			window.setTimeout(function(){goalSender(c,g);}, 500);
+			window.setTimeout(function(){goalSender(c,g);}, 300);
 		}
 	}
 	goalSender(counterId, goalId)
+	
+</script>
