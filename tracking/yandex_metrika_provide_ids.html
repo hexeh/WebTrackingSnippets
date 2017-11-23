@@ -27,7 +27,8 @@
 		  	catch(e)
 		  	{
 		  		console.log('Something Went Wrong!');
-		  		console.error(e)
+		  		console.error(e);
+				window.setTimeout(function(){supplyParams();}, 300);
 		  	}
 		}
 		else
