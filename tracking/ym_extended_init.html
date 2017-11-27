@@ -11,7 +11,9 @@
                     webvisor: true,
                     ecommerce: "dataLayer"
                 });
-                w.goalSender = function(t,p = undefined,c = undefined){
+                w.goalSender = function(t,p,c){
+                    p = typeof p !== 'undefined' ? p : undefined;
+                    c = typeof c !== 'undefined' ? c : undefined;
                     if (typeof w['yaCounter' + {{YM -- Tracker}}] == 'object') {
                         if (typeof p == 'object'){
                             if (typeof c == 'function'){
@@ -28,7 +30,7 @@
                         }
                     } else {
                         w.setTimeout(function(){w.goalSender(t,p,c);}, 300);
-                    }
+                    };
                 };
                 w['document'].addEventListener('yacounter' + {{YM Tracker}} + 'inited', function (){
                     dataLayer = w.dataLayer || [];
@@ -39,7 +41,7 @@
                     });
                 });
             } catch(e) { 
-                ataLayer = w.dataLayer || [];
+                dataLayer = w.dataLayer || [];
                 dataLayer.push({
                     'event': 'YMFail',
                     'isYMReady': 'false',
