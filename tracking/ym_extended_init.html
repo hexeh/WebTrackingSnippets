@@ -15,14 +15,14 @@
                     p = typeof p !== 'undefined' ? p : undefined;
                     c = typeof c !== 'undefined' ? c : undefined;
                     if (typeof w['yaCounter' + {{YM -- Tracker}}] == 'object') {
-                        if (typeof p == 'object'){
-                            if (typeof c == 'function'){
+                        if (typeof p == 'object' || typeof p == 'function'){
+                            if (typeof c == 'function' || typeof c == 'object'){
                                 w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,p,c);
                             } else{
                                 w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,p);
                             }
                         } else {
-                            if (typeof c == 'function') {
+                            if (typeof c == 'function' || typeof c == 'object') {
                                 w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,c);
                             } else {
                                 w['yaCounter' + {{YM -- Tracker}}].reachGoal(t);
