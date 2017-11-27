@@ -11,25 +11,25 @@
                     webvisor: true,
                     ecommerce: "dataLayer"
                 });
-                w.goalSender = function(t,p,c){
+                w.goalSender = function(t,p,b){
                     p = typeof p !== 'undefined' ? p : undefined;
-                    c = typeof c !== 'undefined' ? c : undefined;
+                    b = typeof b !== 'undefined' ? b : undefined;
                     if (typeof w['yaCounter' + {{YM -- Tracker}}] == 'object') {
                         if (typeof p == 'object' || typeof p == 'function'){
-                            if (typeof c == 'function' || typeof c == 'object'){
-                                w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,p,c);
+                            if (typeof b == 'function' || typeof b == 'object'){
+                                w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,p,b);
                             } else{
                                 w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,p);
                             }
                         } else {
-                            if (typeof c == 'function' || typeof c == 'object') {
-                                w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,c);
+                            if (typeof b == 'function' || typeof b == 'object') {
+                                w['yaCounter' + {{YM -- Tracker}}].reachGoal(t,b);
                             } else {
                                 w['yaCounter' + {{YM -- Tracker}}].reachGoal(t);
                             }
                         }
                     } else {
-                        w.setTimeout(function(){w.goalSender(t,p,c);}, 300);
+                        w.setTimeout(function(){w.goalSender(t,p,b);}, 300);
                     };
                 };
                 w['document'].addEventListener('yacounter' + {{YM -- Tracker}} + 'inited', function (){
