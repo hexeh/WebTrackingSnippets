@@ -32,12 +32,12 @@
                         w.setTimeout(function(){w.goalSender(t,p,c);}, 300);
                     };
                 };
-                w['document'].addEventListener('yacounter' + {{YM Tracker}} + 'inited', function (){
+                w['document'].addEventListener('yacounter' + {{YM -- Tracker}} + 'inited', function (){
                     dataLayer = w.dataLayer || [];
                     dataLayer.push({
                         'event': 'YMReady',
                         'isYMReady': 'true',
-                        'ymclid': w['yaCounter' + {{YM Tracker}}].getClientID()
+                        'ymclid': w['yaCounter' + {{YM -- Tracker}}].getClientID()
                     });
                 });
             } catch(e) { 
