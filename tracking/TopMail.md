@@ -89,9 +89,9 @@ _tmr.push({
     window.sendTMObject({
     	type: 'itemView',
     	productid: 'VALUE',
-		pagetype: 'VALUE',
-		list: 'VALUE',
-		totalvalue: 'VALUE'
+	pagetype: 'VALUE',
+	list: 'VALUE',
+	totalvalue: 'VALUE'
     });
 </script>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
