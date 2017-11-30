@@ -1,0 +1,15 @@
+<script type="text/javascript">
+	var vkId = 'EVENT_NAME';
+	var vkSender = function(g)
+	{
+		if( typeof VK == 'object' )
+		{
+			VK.Retargeting.Event(g);
+		}
+		else
+		{
+			window.setTimeout(function(){vkSender(g);}, 500);
+		}
+	}
+	vkSender(vkId)
+</script>
