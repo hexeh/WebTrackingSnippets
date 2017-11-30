@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	var eventTopMail = 'EVENT_NAME';
+	var sendTopMail = function(g)
+	{
+		if( typeof _tmr == 'object' )
+		{
+			_tmr.push({ 
+				id: String({{TM -- Tracker}}), 
+				type: "reachGoal", 
+				goal: g 
+			});
+		}
+		else
+		{
+			window.setTimeout(function(){sendTopMail(g);}, 500);
+		}
+	}
+	sendTopMail(eventTopMail)
+</script>
