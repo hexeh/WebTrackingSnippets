@@ -100,3 +100,14 @@
 ------------------------------------------
 
 Читать [тут](https://vk.com/ads?act=office_help&oid=-19542789&p=%CF%E8%EA%F1%E5%EB%FC_%E4%EB%FF_%E4%E8%ED%E0%EC%E8%F7%E5%F1%EA%EE%E3%EE_%F0%E5%F2%E0%F0%E3%E5%F2%E8%ED%E3%E0)
+
+
+```javascript
+<script type="text/javascript">  
+    window.addVKProductEvent(123456, 'view_product', {
+        'products': [{'id': '123', price: 999}],
+        'currency_code': 'RUR',
+        'search_string': 'shtotutunas'
+    });  
+</script>
+```
