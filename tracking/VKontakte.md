@@ -11,16 +11,16 @@
 
 Для иницализации пикселя воспользуемся следующим кодом:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```javascript
 <div id="vk_api_transport"></div>
 <script type="text/javascript">
   var vk_ret = 1;
   window.vkAsyncInit = function() {
     if(vk_ret)
     {
-      	VK.Retargeting.Init({{VK -- Tracker}});
+        VK.Retargeting.Init({{VK -- Tracker}});
         VK.Retargeting.Hit();
-      	vk_ret = 0
+        vk_ret = 0
     }
   };
   setTimeout(function() {
@@ -48,9 +48,23 @@
         w.setTimeout(function(){w.addVKAud(i);}, 300);
       }
     };
+    w.addVKProductEvent = function(l,t,p) {
+      var allowed = ['view_home', 'view_category', 'view_product', 'view_search', 'view_other', 'add_to_wishlist', 'add_to_cart', 'remove_from_wishlist', 'remove_from_cart', 'init_checkout', 'add_payment_info', 'purchase']
+      var isAllowed = (allowed.indexOf(t) !== -1);
+      if (isAllowed) {
+        if (typeof VK == 'object') {
+          VK.Retargeting.ProductEvent(parseInt(l),t,p);
+        } else {
+          w.setTimeout(function(){w.addVKProductEvent(l,t,p);}, 300);
+        }
+      }
+      else {
+        console.log('event type not allowed')
+      }
+    };
   })(document,window);
 </script>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Отличие данного кода от стандартного заключается в следующем:
 
