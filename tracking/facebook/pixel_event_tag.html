@@ -1,0 +1,16 @@
+<script type="text/javascript">
+	var event = 'EVENT_NAME';
+  var params = {'param': 'pampam'};
+	var eventSend = function(g,p)
+	{
+		if( typeof fbq == 'function' )
+		{
+			fbq('trackCustom', g, p)
+		}
+		else
+		{
+			window.setTimeout(function(){eventSend(g, p);}, 500);
+		}
+	}
+	eventSend(event, params)
+</script>
