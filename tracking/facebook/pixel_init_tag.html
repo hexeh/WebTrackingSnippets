@@ -1,0 +1,60 @@
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+if (!Boolean(parseInt({{isFBAutoConfig}}))) {
+	fbq('set', 'autoConfig', false, String({{FB -- Tracker}}));
+};
+if (Boolean(parseInt({{isFBAdvancedMatching}}))) {
+	fbq('init', String({{FB -- Tracker}}), {
+		'em': {{userEmail}},
+		'fn': {{userFirstName}},
+		'ln': {{userLastName}},
+		'ph': {{userPhone}},
+		'ge': {{userGender}}, // 'm' or 'f'
+		'db': {{userBirthDate}}, // inf format YYYYMMDD
+		'ct': String({{userCity}}).toLowerCase().replace(/\s/g,''),
+		'st': {{userStats}}, // must be only 2 letters 
+		'zp': {{userZip}} // must be only 5 digit
+	});
+	fbq('track', 'PageView');
+} else {
+	fbq('init', String({{FB -- Tracker}}));
+	fbq('track', 'PageView');
+};
+</script>
+<script type="text/javascript">
+	(function (d,w) {
+		// CUSTOM FUNCTIONS
+		w.sendFBEvent = function(ev,pm)
+		{
+			pm = typeof pm !== 'undefined' ? pm : undefined;
+			var tracking = 'trackCustom';
+			var standardEvents = ['ViewContent', 'Search', 'AddToCart', 'AddToWishlist', 'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead', 'CompleteRegistration'];
+			var isStandard = (standardEvents.indexOf(ev) !== -1)
+			if (isStandard) {
+				tracking = 'track';
+			};
+			if (typeof pm == 'object') {
+				if (typeof fbq == 'function') {
+					fbq(tracking, ev, pm)
+				}
+				else {
+					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+				}
+			} else {
+				if (typeof fbq == 'function') {
+					fbq(tracking, ev)
+				} else {
+					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+				}
+			};
+		};
+	})(document,window);
+</script>
+<noscript>
+	<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{FB -- Tracker}}&ev=PageView&noscript=1"/>
+</noscript>
