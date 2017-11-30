@@ -1,0 +1,48 @@
+<script type="text/javascript">
+
+	var supplyParams = function(){
+		try
+		{
+			gaclid = ga.getAll()[0].get('clientId');
+		}
+		catch(e)
+		{
+			gaclid = 0
+		}
+		if( typeof gaclid == 'string' )
+		{
+			try
+			{
+				window['yaCounter' + {{YM Tracker}}].setUserID(gaclid)
+				ymclid = window['yaCounter' + {{YM Tracker}}].getClientID()
+				console.log(
+					'%c  Counter: ' + '%c' + {{YM Tracker}} + ' ' + '%c Detect User With ID ' + '%c' + gaclid + '  ', 
+					'background:#37474F;color:white;', 'background:#37474F;color:#FFECB3;font-weight:bold', 
+					'background:#37474F;color:white;', 'background:#37474F;color:#FFECB3;font-weight:bold'
+				);
+				window['yaCounter' + {{YM Tracker}}].userParams({
+					'gaclid': gaclid,
+					'ymclid': ymclid
+				})
+				console.log(
+					'%c  Counter: ' + '%c' + {{YM Tracker}} + ' ' + '%c Detect YMCLID ' + '%c' + ymclid + '  ', 
+					'background:#37474F;color:white;', 'background:#37474F;color:#FFECB3;font-weight:bold', 
+					'background:#37474F;color:white;', 'background:#37474F;color:#FFECB3;font-weight:bold'
+				);
+			}
+		  	catch(e)
+		  	{
+		  		console.log('Something Went Wrong!');
+		  		console.error(e);
+				window.setTimeout(function(){supplyParams();}, 300);
+		  	}
+		}
+		else
+		{
+			window.setTimeout(function(){supplyParams();}, 300);
+		}
+	}
+
+	supplyParams();
+	
+</script>
