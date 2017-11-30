@@ -1,0 +1,11 @@
+<script type="text/javascript">
+	dataLayer = window.dataLayer || [];
+	document.addEventListener('yacounter' + {{YM Tracker}} + 'inited', function ()
+	{
+	    dataLayer.push({
+	    	'event': 'YMReady',
+	    	'isYMReady': 'true',
+	    	'ymclid': window['yaCounter' + {{YM Tracker}}].getClientID()
+	    });
+	});
+</script>
