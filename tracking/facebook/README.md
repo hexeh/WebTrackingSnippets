@@ -11,7 +11,7 @@
 
 Поскольку мы для внедрения кода пикселя на сайт будем использовать Google Tag Manager, то сразу сохраним значение идентификатора пикселя в виде переменной с типом **Константа**. Далее во всех кодах подразумевается, что переменная с идентификатором пикселя имеет название `FB -- Tracker`.
 
-Дополнительно, мы создадим в контейнере переменную-индикатор того, будет ли использоваться [Расширенное сопоставление](https://developers.facebook.com/docs/facebook-pixel/pixel-with-ads/conversion-tracking#advanced_match) при инициализации пикселя. Коды далее предполагают, что переменная имеет название `isFBAdvancedMatching` и тип **Константа**. В случае, если на сайте есть возможность получения телефона, почты, пола, геоинформации или личной информации посетителя, мы устанавливаем значение переменной в `1`, в противном случае - `0`.
+Дополнительно, мы создадим в контейнере переменную-индикатор того, будет ли использоваться [Расширенное сопоставление](https://developers.facebook.com/docs/facebook-pixel/pixel-with-ads/conversion-tracking#advanced_match) - уточнение информации о посетителе сайта для случая, когда нам доступна какая-либо идентифицрующая этого пользователя информация, - при инициализации пикселя. Коды далее предполагают, что переменная имеет название `isFBAdvancedMatching` и тип **Константа**. В случае, если на сайте есть возможность получения телефона, почты, пола, геоинформации или личной информации посетителя, мы устанавливаем значение переменной в `1`, в противном случае - `0`.
 
 Кроме того, учтем возможность отключения [автоматических событий пикселя](https://developers.facebook.com/docs/facebook-pixel/api-reference#automatic-configuration) аналогичной по конфигурации переменной с именем `isFBAutoConfig`. 
 
@@ -45,6 +45,57 @@ if (Boolean(parseInt({{isFBAdvancedMatching}}))) {
 	fbq('init', String({{FB -- Tracker}}));
 	fbq('track', 'PageView');
 };
+</script>
+<script type="text/javascript">
+	(function (d,w) {
+		// CUSTOM FUNCTIONS
+		w.sendFBEvent = function(ev,pm)
+		{
+			pm = typeof pm !== 'undefined' ? pm : undefined;
+			var tracking = 'trackCustom';
+			var standardEvents = ['ViewContent', 'Search', 'AddToCart', 'AddToWishlist', 'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead', 'CompleteRegistration'];
+			var isStandard = (standardEvents.indexOf(ev) !== -1)
+			if (isStandard) {
+				tracking = 'track';
+			};
+			if (typeof pm == 'object') {
+				if (typeof fbq == 'function') {
+					fbq(tracking, ev, pm)
+				}
+				else {
+					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+				}
+			} else {
+				if (typeof fbq == 'function') {
+					fbq(tracking, ev)
+				} else {
+					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+				}
+			};
+		};
+	})(document,window);
+</script>
+<noscript>
+	<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{FB -- Tracker}}&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
+```
+
+В случае, если нас не интересует расширенное сопоставление, то можно воспользоваться укороченной версией кода без соответствующих переменных:
+
+```html
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+if (!Boolean(parseInt({{isFBAutoConfig}}))) {
+	fbq('set', 'autoConfig', false, String({{FB -- Tracker}}));
+};
+fbq('init', String({{FB -- Tracker}}));
+fbq('track', 'PageView');
 </script>
 <script type="text/javascript">
 	(function (d,w) {
