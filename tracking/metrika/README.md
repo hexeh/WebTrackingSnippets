@@ -182,7 +182,7 @@ ga.getAll()[0].get('clientId')
 Поскольку при инициализации счетчика уже была задана функция отправки целей с проверкой наличия счетчика на странице, то теперь для отправки достаточно создать новый тег с типом **Пользовательский HTML**. Пример кода:
 ```html
 <script type="text/javascript">
-    window.goalSender('hello_there', function(){
+    window.goalSender('hello_there',  {{YM -- Tracker}}, function(){
         console.log('We\'ve just sent hello to Metrika')
     }, {{YM -- Tracker}});
 </script>
