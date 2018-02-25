@@ -26,25 +26,25 @@
                     webvisor: true,
                     ecommerce: "dataLayer"
                 });
-                w.goalSender = function(t,p,b,id){
+                w.goalSender = function(t,id,p,b){
                     p = typeof p !== 'undefined' ? p : undefined;
                     b = typeof b !== 'undefined' ? b : undefined;
                     if (typeof w['yaCounter' + id] == 'object') {
                         if (typeof p == 'object' || typeof p == 'function'){
                             if (typeof b == 'function' || typeof b == 'object'){
-                                w['yaCounter' + id].reachGoal(t,p,b,id);
+                                w['yaCounter' + id].reachGoal(t,id,p,b);
                             } else{
-                                w['yaCounter' + id].reachGoal(t,p,id);
+                                w['yaCounter' + id].reachGoal(t,id,p,b);
                             }
                         } else {
                             if (typeof b == 'function' || typeof b == 'object') {
-                                w['yaCounter' + id].reachGoal(t,b,id);
+                                w['yaCounter' + id].reachGoal(t,id,b);
                             } else {
                                 w['yaCounter' + id].reachGoal(t,id);
                             }
                         }
                     } else {
-                        w.setTimeout(function(){w.goalSender(t,p,b,id);}, 300);
+                        w.setTimeout(function(){w.goalSender(t,id,p,b);}, 300);
                     };
                 };
                 w['document'].addEventListener('yacounter' + {{YM -- Tracker}} + 'inited', function (){
@@ -184,7 +184,7 @@ ga.getAll()[0].get('clientId')
 <script type="text/javascript">
     window.goalSender('hello_there',  {{YM -- Tracker}}, function(){
         console.log('We\'ve just sent hello to Metrika')
-    }, {{YM -- Tracker}});
+    });
 </script>
 ```
 
