@@ -85,6 +85,11 @@
 <script type="text/javascript">  
     window.sendVKEvent('hello_there');  
 </script>
+<noscript>
+  <div>
+    <img src="https://vk.com/rtrg?p={{VK -- Tracker}}&event=hello_there" style="position:absolute; left:-9999px;" alt="" />
+  </div>
+</noscript>
 ```
 
 Пример кода в случае добавления посетителя в определенную аудиторию:
@@ -92,6 +97,11 @@
 <script type="text/javascript">  
     window.addVKAud(123456);  
 </script>
+<noscript>
+  <div>
+    <img src="https://vk.com/rtrg?p={{VK -- Tracker}}&audience=123456" style="position:absolute; left:-9999px;" alt="" />
+  </div>
+</noscript>
 ```
 
 
