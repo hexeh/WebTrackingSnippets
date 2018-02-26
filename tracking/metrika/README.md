@@ -32,15 +32,15 @@
                     if (typeof w['yaCounter' + id] == 'object') {
                         if (typeof p == 'object' || typeof p == 'function'){
                             if (typeof b == 'function' || typeof b == 'object'){
-                                w['yaCounter' + id].reachGoal(t,id,p,b);
+                                w['yaCounter' + id].reachGoal(t,p,b);
                             } else{
-                                w['yaCounter' + id].reachGoal(t,id,p,b);
+                                w['yaCounter' + id].reachGoal(t,p,b);
                             }
                         } else {
                             if (typeof b == 'function' || typeof b == 'object') {
-                                w['yaCounter' + id].reachGoal(t,id,b);
+                                w['yaCounter' + id].reachGoal(t,b);
                             } else {
-                                w['yaCounter' + id].reachGoal(t,id);
+                                w['yaCounter' + id].reachGoal(t);
                             }
                         }
                     } else {
