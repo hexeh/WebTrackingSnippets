@@ -1,0 +1,25 @@
+<script type="text/javascript">
+	var test = document.createElement('div');
+		test.innerHTML = '&nbsp;';
+		test.className = 'adsbox ad_content';
+	document.body.appendChild(test);
+	var dataLayer = window.dataLayer || [];
+	window.setTimeout(function() {
+		if (test.offsetHeight === 0) {
+			window.adblockEnabled = true;
+			dataLayer.push({
+				'event': 'adblock_detection',
+				'adblockEnabled': true
+			});
+		} else {
+			window.adblockEnabled = false;
+			dataLayer.push({
+				'event': 'adblock_detection',
+				'adblockEnabled': false
+			});
+		}
+		window.adBlockDetectionComplete = true;
+		console.log('AdBlock Enabled: ', window.adblockEnabled)
+		test.remove();
+	}, 300);
+</script>
