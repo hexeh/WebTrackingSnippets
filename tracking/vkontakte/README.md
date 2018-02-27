@@ -35,6 +35,7 @@
   (function (d,w) {
     // CUSTOM FUNCTIONS
     w.sendVKEvent = function(g) {
+      g = typeof g !== 'undefined' ? g : '_blank';
       if (typeof VK == 'object') {
         if (VK.Retargeting.pixelCode.length > 0) {
           VK.Retargeting.Event(g);
@@ -59,9 +60,9 @@
       }
     };
     w.addVKProductEvent = function(l,t,p) {
+      p = typeof p !== 'undefined' ? p : {};
       var allowed = ['view_home', 'view_category', 'view_product', 'view_search', 'view_other', 'add_to_wishlist', 'add_to_cart', 'remove_from_wishlist', 'remove_from_cart', 'init_checkout', 'add_payment_info', 'purchase']
       var isAllowed = (allowed.indexOf(t) !== -1);
-      console.log('allowed: ', isAllowed)
       if (isAllowed) {
         if (typeof VK == 'object' && typeof VK.Retargeting.ProductEvent == 'function') {
           if (VK.Retargeting.pixelCode.length > 0) {
@@ -135,4 +136,14 @@
         'search_string': 'shtotutunas'
     });  
 </script>
+<noscript>
+  <div>
+    <!--product params are encodeURIComponent(JSON.stringify(PARAMS))-->
+    <img 
+      src="https://vk.com/rtrg?p={{VK -- Tracker}}&products_event=view_product&price_list_id=123456&products_params=%7B%22products%22%3A%5B%7B%22id%22%3A%22123%22%2C%22price%22%3A999%7D%5D%2C%22currency_code%22%3A%22RUR%22%2C%22search_string%22%3A%22shtotutunas%22%7D" 
+      style="position:absolute; left:-9999px;" 
+      alt="" 
+    />
+  </div>
+</noscript>
 ```
