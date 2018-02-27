@@ -34,45 +34,77 @@
 <script type="text/javascript">
   (function (d,w) {
     // CUSTOM FUNCTIONS
-    w.sendVKEvent = function(g) {
+    w.sendVKEvent = function(g,retries) {
       g = typeof g !== 'undefined' ? g : '_blank';
-      if (typeof VK == 'object') {
-        if (VK.Retargeting.pixelCode.length > 0) {
-          VK.Retargeting.Event(g);
+      retries = typeof retries !== 'undefined' ? retries : 1;
+      if (retries <= 15) {
+        if (typeof VK == 'object') {
+          if (VK.Retargeting.pixelCode.length > 0) {
+            VK.Retargeting.Event(g);
+          } else {
+            VK.Retargeting.pixelCode = {{VK -- Tracker}};
+            VK.Retargeting.Event(g);
+          }
         } else {
-          VK.Retargeting.pixelCode = {{VK -- Tracker}};
-          VK.Retargeting.Event(g);
+          retries += 1;
+          w.setTimeout(function(){w.sendVKEvent(g,retries);}, 300);
         }
       } else {
-        w.setTimeout(function(){w.sendVKEvent(g);}, 300);
+        var pix = document.createElement('img');
+          pix.setAttribute('src', 'https://vk.com/rtrg?p=' + String({{VK -- Tracker}}) + '&event=' + String(g))
+          pix.setAttribute('style', 'position:absolute; left:-9999px;');
+          pix.setAttribute('alt', '');
+        document.body.appendChild(pix);
       }
     };
-    w.addVKAud = function(i) {
-      if (typeof VK == 'object') {
-        if (VK.Retargeting.pixelCode.length > 0) {
-          VK.Retargeting.Add(parseInt(i));
+    w.addVKAud = function(i,retries) {
+      retries = typeof retries !== 'undefined' ? retries : 1;
+      if (retries <= 15) {
+        if (typeof VK == 'object') {
+          if (VK.Retargeting.pixelCode.length > 0) {
+            VK.Retargeting.Add(parseInt(i));
+          } else {
+            VK.Retargeting.pixelCode = {{VK -- Tracker}};
+            VK.Retargeting.Add(parseInt(i));
+          }
         } else {
-          VK.Retargeting.pixelCode = {{VK -- Tracker}};
-          VK.Retargeting.Add(parseInt(i));
+          retries += 1;
+          w.setTimeout(function(){w.addVKAud(i, retries);}, 300);
         }
       } else {
-        w.setTimeout(function(){w.addVKAud(i);}, 300);
+        var pix = document.createElement('img');
+          pix.setAttribute('src', 'https://vk.com/rtrg?p=' + String({{VK -- Tracker}}) + '&audience=' + String(i))
+          pix.setAttribute('style', 'position:absolute; left:-9999px;');
+          pix.setAttribute('alt', '');
+        document.body.appendChild(pix);
       }
     };
-    w.addVKProductEvent = function(l,t,p) {
+    w.addVKProductEvent = function(l,t,p,retries) {
+      retries = typeof retries !== 'undefined' ? retries : 1;
       p = typeof p !== 'undefined' ? p : {};
       var allowed = ['view_home', 'view_category', 'view_product', 'view_search', 'view_other', 'add_to_wishlist', 'add_to_cart', 'remove_from_wishlist', 'remove_from_cart', 'init_checkout', 'add_payment_info', 'purchase']
       var isAllowed = (allowed.indexOf(t) !== -1);
       if (isAllowed) {
-        if (typeof VK == 'object' && typeof VK.Retargeting.ProductEvent == 'function') {
-          if (VK.Retargeting.pixelCode.length > 0) {
-            VK.Retargeting.ProductEvent(parseInt(l),t,p);
+        if (retries <= 15) {
+          if (typeof VK == 'object' && typeof VK.Retargeting.ProductEvent == 'function') {
+            if (VK.Retargeting.pixelCode.length > 0) {
+              VK.Retargeting.ProductEvent(parseInt(l),t,p);
+            } else {
+              VK.Retargeting.pixelCode = {{VK -- Tracker}};
+              VK.Retargeting.ProductEvent(parseInt(l),t,p);
+            }
           } else {
-            VK.Retargeting.pixelCode = {{VK -- Tracker}};
-            VK.Retargeting.ProductEvent(parseInt(l),t,p);
+            retries += 1;
+            w.setTimeout(function(){w.addVKProductEvent(l,t,p, retries);}, 300);
           }
         } else {
-          w.setTimeout(function(){w.addVKProductEvent(l,t,p);}, 300);
+          var url = 'https://vk.com/rtrg?p=' + String({{VK -- Tracker}}) + '&products_event=' + String(t) + '&price_list_id=' + String(l) + '&e=1&i=0&'
+            url += encodeURIComponent(JSON.stringify(p))
+          var pix = document.createElement('img');
+            pix.setAttribute('src', url)
+            pix.setAttribute('style', 'position:absolute; left:-9999px;');
+            pix.setAttribute('alt', '');
+          document.body.appendChild(pix);
         }
       }
       else {
