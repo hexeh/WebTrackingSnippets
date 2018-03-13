@@ -20,6 +20,7 @@
     {
         VK.Retargeting.Init({{VK -- Tracker}});
         VK.Retargeting.Hit();
+        window.VKPixelReady = {{VK -- Tracker}};
         vk_ret = 0
     }
   };
@@ -39,7 +40,7 @@
       retries = typeof retries !== 'undefined' ? retries : 1;
       if (retries <= 15) {
         if (typeof VK == 'object') {
-          if (VK.Retargeting.pixelCode.length > 0) {
+          if (typeof w.VKPixelReady !== 'undefined') {
             VK.Retargeting.Event(g);
           } else {
             VK.Retargeting.pixelCode = {{VK -- Tracker}};
@@ -61,7 +62,7 @@
       retries = typeof retries !== 'undefined' ? retries : 1;
       if (retries <= 15) {
         if (typeof VK == 'object') {
-          if (VK.Retargeting.pixelCode.length > 0) {
+          if (typeof w.VKPixelReady !== 'undefined') {
             VK.Retargeting.Add(parseInt(i));
           } else {
             VK.Retargeting.pixelCode = {{VK -- Tracker}};
@@ -87,7 +88,7 @@
       if (isAllowed) {
         if (retries <= 15) {
           if (typeof VK == 'object' && typeof VK.Retargeting.ProductEvent == 'function') {
-            if (VK.Retargeting.pixelCode.length > 0) {
+            if (typeof w.VKPixelReady !== 'undefined') {
               VK.Retargeting.ProductEvent(parseInt(l),t,p);
             } else {
               VK.Retargeting.pixelCode = {{VK -- Tracker}};
