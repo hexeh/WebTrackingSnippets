@@ -15,18 +15,36 @@
 ```html
 <script type="text/javascript">
     (function (d, w, c) {
+        // Задаем параметр версии Вебвизора - 1 или 2
+        w['yandex_metrika_webvisor'] = 1;
+
+        c = (w['yandex_metrika_webvisor'] == 2) ? 'yandex_metrika_callbacks2':'yandex_metrika_callbacks';
         (w[c] = w[c] || []).push(function() {
             try {
-                w['yaCounter' + {{YM -- Tracker}}] = new Ya.Metrika({
-                    id: Number({{YM -- Tracker}}),
-                    clickmap: true,
-                    trackLinks: true,
-                    accurateTrackBounce: true,
-                    triggerEvent: true,
-                    webvisor: true,
-                    ecommerce: "dataLayer"
-                });
-                w.goalSender = function(t,id,p,b){
+                console.log(w['yandex_metrika_webvisor'])
+                if (w['yandex_metrika_webvisor'] == 2) {
+                    w['yaCounter' + {{YM -- Tracker}}] = new Ya.Metrika2({
+                        id: Number({{YM -- Tracker}}),
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        triggerEvent: true,
+                        webvisor: true,
+                        ecommerce: "dataLayer"
+                    });
+                } else {
+                    w['yaCounter' + {{YM -- Tracker}}] = new Ya.Metrika({
+                        id: Number({{YM -- Tracker}}),
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        triggerEvent: true,
+                        webvisor: true,
+                        ecommerce: "dataLayer"
+                    });
+                }
+                w.goalSender = function(t,p,b,id){
+                    id = typeof id !== 'undefined' ? id : {{YM -- Tracker}};
                     p = typeof p !== 'undefined' ? p : undefined;
                     b = typeof b !== 'undefined' ? b : undefined;
                     if (typeof w['yaCounter' + id] == 'object') {
@@ -34,7 +52,7 @@
                             if (typeof b == 'function' || typeof b == 'object'){
                                 w['yaCounter' + id].reachGoal(t,p,b);
                             } else{
-                                w['yaCounter' + id].reachGoal(t,p,b);
+                                w['yaCounter' + id].reachGoal(t,p);
                             }
                         } else {
                             if (typeof b == 'function' || typeof b == 'object') {
@@ -44,7 +62,7 @@
                             }
                         }
                     } else {
-                        w.setTimeout(function(){w.goalSender(t,id,p,b);}, 300);
+                        w.setTimeout(function(){w.goalSender(t,p,b,id);}, 300);
                     };
                 };
                 w['document'].addEventListener('yacounter' + {{YM -- Tracker}} + 'inited', function (){
@@ -56,6 +74,7 @@
                     });
                 });
             } catch(e) { 
+                console.log(e)
                 dataLayer = w.dataLayer || [];
                 dataLayer.push({
                     'event': 'YMFail',
@@ -70,8 +89,11 @@
             f = function () { n.parentNode.insertBefore(s, n); };
         s.type = "text/javascript";
         s.async = true;
-        s.src = "https://mc.yandex.ru/metrika/watch.js";
-
+        if (w['yandex_metrika_webvisor'] == 2) {
+            s.src = "https://mc.yandex.ru/metrika/tag.js";
+        } else {
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+        }
         if (w.opera == "[object Opera]") {
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
@@ -87,6 +109,8 @@
 2.  При инициализации счетчика мы включили событие готовности счетчика - как только оно произойдет, в dataLayer отправится событие `YMReady`. Если при инициализации счетчика на сайте произойдет какая-либо ошибка, то в dataLayer отправится событие `YMFail`. В дальнейшем мы произведем соответсвующие настройки в контейнере для фиксации этих событий
 
 3.  Мы ввели глобальную функцию `goalSender` - эта функция дублирует стандартный метод счетчика reachGoal, но с одним дополнением - при вызове функции происходит проверка инициализации счетчика и, в случае успешной проверки, отправка события достижения цели в Метрику, в противном же случае проверка повторяется каждые 0.3с вплоть до того момента, пока не завершится успешно.
+
+4. Мы ввели переменную на уровне всего окна браузера, идентифицирующую используемую версию Вебвизора - новая версия (2) или старая (1). В данном примере версия указана в 4 строке кода счетчика. Далее при необходимости можно узнать версию вебвизора, обратившись к переменной `yandex_metrika_webvisor`
 
 При необходимости вы можете добавить любые другие параметры инициализации из [документации](https://yandex.ru/support/metrika/code/counter-initialize.html).
 
