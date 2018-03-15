@@ -1,17 +1,35 @@
 <script type="text/javascript">
     (function (d, w, c) {
+        // Задаем параметр версии Вебвизора - 1 или 2
+        w['yandex_metrika_webvisor'] = 2;
+
+        c = (w['yandex_metrika_webvisor'] == 2) ? 'yandex_metrika_callbacks2':'yandex_metrika_callbacks';
         (w[c] = w[c] || []).push(function() {
             try {
-                w['yaCounter' + {{YM -- Tracker}}] = new Ya.Metrika({
-                    id: Number({{YM -- Tracker}}),
-                    clickmap: true,
-                    trackLinks: true,
-                    accurateTrackBounce: true,
-                    triggerEvent: true,
-                    webvisor: true,
-                    ecommerce: "dataLayer"
-                });
-                w.goalSender = function(t,id,p,b){
+                console.log(w['yandex_metrika_webvisor'])
+                if (w['yandex_metrika_webvisor'] == 2) {
+                    w['yaCounter' + {{YM -- Tracker}}] = new Ya.Metrika2({
+                        id: Number({{YM -- Tracker}}),
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        triggerEvent: true,
+                        webvisor: true,
+                        ecommerce: "dataLayer"
+                    });
+                } else {
+                    w['yaCounter' + {{YM -- Tracker}}] = new Ya.Metrika({
+                        id: Number({{YM -- Tracker}}),
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        triggerEvent: true,
+                        webvisor: true,
+                        ecommerce: "dataLayer"
+                    });
+                }
+                w.goalSender = function(t,p,b,id){
+                    id = typeof id !== 'undefined' ? id : {{YM -- Tracker}};
                     p = typeof p !== 'undefined' ? p : undefined;
                     b = typeof b !== 'undefined' ? b : undefined;
                     if (typeof w['yaCounter' + id] == 'object') {
@@ -29,7 +47,7 @@
                             }
                         }
                     } else {
-                        w.setTimeout(function(){w.goalSender(t,id,p,b);}, 300);
+                        w.setTimeout(function(){w.goalSender(t,p,b,id);}, 300);
                     };
                 };
                 w['document'].addEventListener('yacounter' + {{YM -- Tracker}} + 'inited', function (){
@@ -41,6 +59,7 @@
                     });
                 });
             } catch(e) { 
+                console.log(e)
                 dataLayer = w.dataLayer || [];
                 dataLayer.push({
                     'event': 'YMFail',
@@ -55,8 +74,11 @@
             f = function () { n.parentNode.insertBefore(s, n); };
         s.type = "text/javascript";
         s.async = true;
-        s.src = "https://mc.yandex.ru/metrika/watch.js";
-
+        if (w['yandex_metrika_webvisor'] == 2) {
+            s.src = "https://mc.yandex.ru/metrika/tag.js";
+        } else {
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+        }
         if (w.opera == "[object Opera]") {
             d.addEventListener("DOMContentLoaded", f, false);
         } else { f(); }
