@@ -1,3 +1,5 @@
+**_[ENGLISH VERSION](https://github.com/hexeh/WebTrackingSnippets/tree/master/tracking/vkontakte/EN_README.md)_**
+
 Немногие знают, что для отправки определенных событий в ВКонтакте можно использовать один пиксель, а не создавать новые.
 
 Пример реализации в Google Tag Manager далее.
