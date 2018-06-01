@@ -2,6 +2,7 @@
 
 В данном материале не будет дублироваться вся справка Facebook по вопросу возможностей отслеживания, однако, будут отмечены наиболее полезные для работы моменты.
 
+<p align="center"><a href = "https://github.com/hexeh/WebTrackingSnippets/tree/master/tracking/facebook/EN_README.md">:us:</a></p>
 
 Инициализация
 -------------
