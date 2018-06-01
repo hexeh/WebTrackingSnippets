@@ -28,17 +28,20 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 if (!Boolean(parseInt({{isFBAutoConfig}}))) {
 	fbq('set', 'autoConfig', false, String({{FB -- Tracker}}));
 };
+if (Boolean(parseInt({{allowGDPRCheck}}))) {
+	fbq('consent', 'revoke');
+};
 if (Boolean(parseInt({{isFBAdvancedMatching}}))) {
 	fbq('init', String({{FB -- Tracker}}), {
-		'em': {{userEmail}},
-		'fn': {{userFirstName}},
-		'ln': {{userLastName}},
-		'ph': {{userPhone}},
-		'ge': {{userGender}}, // 'm' or 'f'
-		'db': {{userBirthDate}}, // inf format YYYYMMDD
-		'ct': String({{userCity}}).toLowerCase().replace(/\s/g,''),
-		'st': {{userStats}}, // must be only 2 letters 
-		'zp': {{userZip}} // must be only 5 digit
+		'em': {{userData}}.userEmail,
+		'fn': {{userData}}.userFirstName,
+		'ln': {{userData}}.userLastName,
+		'ph': {{userData}}.userPhone,
+		'ge': {{userData}}.userGender, // 'm' or 'f'
+		'db': {{userData}}.userBirthDate, // inf format YYYYMMDD
+		'ct': String({{userData}}.userCity).toLowerCase().replace(/\s/g,''),
+		'st': {{userData}}.userStats, // must be only 2 letters 
+		'zp': {{userData}}.userZip // must be only 5 digit
 	});
 	fbq('track', 'PageView');
 } else {
@@ -49,36 +52,52 @@ if (Boolean(parseInt({{isFBAdvancedMatching}}))) {
 <script type="text/javascript">
 	(function (d,w) {
 		// CUSTOM FUNCTIONS
-		w.sendFBEvent = function(ev,pm)
-		{
+		w.sendFBEvent = function(ev,pm,pid) {
 			pm = typeof pm !== 'undefined' ? pm : undefined;
+			pid = typeof pid !== 'undefined' ? pid : undefined;
 			var tracking = 'trackCustom';
+			if (pid) {
+				tracking = 'trackSingleCustom';
+			}
 			var standardEvents = ['ViewContent', 'Search', 'AddToCart', 'AddToWishlist', 'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead', 'CompleteRegistration'];
-			var isStandard = (standardEvents.indexOf(ev) !== -1)
+			var isStandard = (standardEvents.indexOf(ev) !== -1);
 			if (isStandard) {
 				tracking = 'track';
+				if (pid) {
+					tracking = 'trackSingle';
+				}
 			};
 			if (typeof pm == 'object') {
 				if (typeof fbq == 'function') {
-					fbq(tracking, ev, pm)
+					if (pid) {
+						fbq(tracking, String(pid), ev, pm);
+					} else {
+						fbq(tracking, ev, pm);
+					}
 				}
 				else {
-					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+					w.setTimeout(function(){w.sendFBEvent(ev,pm,pid);}, 300);
 				}
 			} else {
 				if (typeof fbq == 'function') {
-					fbq(tracking, ev)
+					if (pid) {
+						fbq(tracking, String(pid), ev);
+					} else {
+						fbq(tracking, ev);
+					}
 				} else {
-					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+					w.setTimeout(function(){w.sendFBEvent(ev,pm,pid);}, 300);
 				}
 			};
+		};
+		w.allowToTrackFB = function() {
+			fbq('consent', 'grant');
 		};
 	})(document,window);
 </script>
 <noscript>
 	<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{FB -- Tracker}}&ev=PageView&noscript=1"/>
 </noscript>
-<!-- End Facebook Pixel Code -->
 ```
 
 В случае, если нас не интересует расширенное сопоставление, то можно воспользоваться укороченной версией кода без соответствующих переменных:
@@ -94,51 +113,72 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 if (!Boolean(parseInt({{isFBAutoConfig}}))) {
 	fbq('set', 'autoConfig', false, String({{FB -- Tracker}}));
 };
+if (Boolean(parseInt({{allowGDPRCheck}}))) {
+	fbq('consent', 'revoke');
+};
 fbq('init', String({{FB -- Tracker}}));
 fbq('track', 'PageView');
 </script>
 <script type="text/javascript">
 	(function (d,w) {
 		// CUSTOM FUNCTIONS
-		w.sendFBEvent = function(ev,pm)
-		{
+		w.sendFBEvent = function(ev,pm,pid) {
 			pm = typeof pm !== 'undefined' ? pm : undefined;
+			pid = typeof pid !== 'undefined' ? pid : undefined;
 			var tracking = 'trackCustom';
+			if (pid) {
+				tracking = 'trackSingleCustom';
+			}
 			var standardEvents = ['ViewContent', 'Search', 'AddToCart', 'AddToWishlist', 'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead', 'CompleteRegistration'];
-			var isStandard = (standardEvents.indexOf(ev) !== -1)
+			var isStandard = (standardEvents.indexOf(ev) !== -1);
 			if (isStandard) {
 				tracking = 'track';
+				if (pid) {
+					tracking = 'trackSingle';
+				}
 			};
 			if (typeof pm == 'object') {
 				if (typeof fbq == 'function') {
-					fbq(tracking, ev, pm)
+					if (pid) {
+						fbq(tracking, String(pid), ev, pm);
+					} else {
+						fbq(tracking, ev, pm);
+					}
 				}
 				else {
-					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+					w.setTimeout(function(){w.sendFBEvent(ev,pm,pid);}, 300);
 				}
 			} else {
 				if (typeof fbq == 'function') {
-					fbq(tracking, ev)
+					if (pid) {
+						fbq(tracking, String(pid), ev);
+					} else {
+						fbq(tracking, ev);
+					}
 				} else {
-					w.setTimeout(function(){w.sendFBEvent(ev,pm);}, 300);
+					w.setTimeout(function(){w.sendFBEvent(ev,pm,pid);}, 300);
 				}
 			};
+		};
+		w.allowToTrackFB = function() {
+			fbq('consent', 'grant');
 		};
 	})(document,window);
 </script>
 <noscript>
 	<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{FB -- Tracker}}&ev=PageView&noscript=1"/>
 </noscript>
-<!-- End Facebook Pixel Code -->
 ```
 
 Отличие данного кода от стандартного заключается в следующем:
 
 1.  Мы контролируем отправку стандартных событий Facebook значением сохраненной переменной `isFBAutoConfig` без необходимости изменения кода отслеживания
 
-2.  Мы контролируем отправку расширенной информации о пользователе значением сохраненной переменной `isFBAdvancedMatching` без необходимости кода отслеживания. Тем не менее стоит обратить внимание на то, что в коде представлены абсолютно все возможные параметры пользователя - **если на сайте нет возможности отслеживать часть представленных параметров, то соответствующие строки нужно удалить**.
+2.  Мы контролируем отправку расширенной информации о пользователе значением сохраненной переменной `isFBAdvancedMatching` без необходимости кода отслеживания. Тем не менее стоит обратить внимание на то, что в коде представлены абсолютно все возможные параметры пользователя (в виде JSON-переменной `userData`)- **если на сайте нет возможности отслеживать часть представленных параметров, то соответствующие строки нужно удалить**.
 
-3.  Мы ввели глобальную функцию `sendFBEvent` - эта функция дублирует стандартный метод отправки событий пикселя, но с одним дополнением - при вызове функции происходит проверка инициализации пикселя и, в случае успешной проверки, происходит отправка события, в противном же случае проверка повторяется каждые 0.3с вплоть до того момента, пока не завершится успешно.
+3.  Мы ввели глобальную функцию `sendFBEvent` - эта функция дублирует стандартный метод отправки событий пикселя, но с одним дополнением - при вызове функции происходит проверка инициализации пикселя и, в случае успешной проверки, происходит отправка события, в противном же случае проверка повторяется каждые 0.3с вплоть до того момента, пока не завершится успешно. Помимо этого, функция автоматически определяет, какой конкретно способ отслеживания вызывать - отслеживание стандартных или пользовательских событий, отслеживание для конкретного счетчика или всех счетчиков на сайте.
+
+4.  Мы ввели поддержку регламента по защите данных (GDPR) - логика срабатывания теперь контролируется переменной `allowGDPRCheck` - в случае значения 1 срабатывание пикселя откладывается и может быть активировано позднее вызовом глобальной функции `allowToTrackFB`.
 
 
 Отправка событий
@@ -165,3 +205,14 @@ fbq('track', 'PageView');
     });
 </script>
 ```
+
+В данном примере событие поиска будет отправлено на все пиксели, установленные на сайте. Для ограничения срабатывания каким-либо конкретным пикселем достаточно добавить его идентификатор в параметры вызова функции, например:
+
+```html
+<script type="text/javascript">
+    window.sendFBEvent('Search', {
+    	'search_string': 'Hello There!'
+    }, 1000000000000);
+</script>
+```
+
