@@ -13,7 +13,7 @@
     };
     window['document'].addEventListener('yacounter' + {{YM -- Tracker}} + 'inited', function() {
         window['ym'](Number({{YM -- Tracker}}), 'getClientID', function(ymClientID) {
-            dataLayer = w.dataLayer || [];
+            dataLayer = window.dataLayer || [];
             dataLayer.push({
                 'event': 'YMReady',
                 'isYMReady': 'true',
